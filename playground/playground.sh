@@ -6,20 +6,10 @@
 # bash -x ./playground/playground.sh
 # bash -r ./playground/playground.sh
 
-fruits=(orange banana apple)
+sleep 100 &
 
-show_details(){
-  echo "Fruits: ${fruits[*]}"
-  echo "2nd fruit: ${fruits[1]}"
-}
+echo "Creating file"
+touch "test.txt"
 
-show_details
-
-unset fruits[1]
-
-show_details
-
-fruits[1]="pineapple"
-
-show_details
-
+echo "Deleting file"
+rm -rf "test.txt"
