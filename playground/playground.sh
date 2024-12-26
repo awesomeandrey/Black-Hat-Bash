@@ -6,10 +6,16 @@
 # bash -x ./playground/playground.sh
 # bash -r ./playground/playground.sh
 
-sleep 100 &
+read -p "Enter your firstname: " FIRST_NAME
+read -p "Enter your lastname: " LAST_NAME
+echo "You entered $FIRST_NAME and $LAST_NAME"
 
-echo "Creating file"
-touch "test.txt"
+touch "output.txt"
 
-echo "Deleting file"
-rm -rf "test.txt"
+date +"%d-%m-%Y" > "output.txt"
+
+echo "$FIRST_NAME $LAST_NAME" >> "output.txt"
+
+cp -f "output.txt" "backup.txt"
+
+cat "output.txt"
