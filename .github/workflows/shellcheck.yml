@@ -17,4 +17,5 @@ jobs:
         uses: ludeeus/action-shellcheck@master
         with:
           ignore_paths: lab
-
+        env:
+          SHELLCHECK_OPTS: -e SC2129

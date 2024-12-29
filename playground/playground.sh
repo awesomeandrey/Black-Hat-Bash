@@ -8,9 +8,3 @@
 # alias playground="bash /home/kali/Projects/Black-Hat-Bash/playground/playground.sh"
 
 
-#TARGET_NAME="$1"
-#TARGET_DOMAIN="$2"
-
-fileName=$(basename "$0")
-
-echo "Basename is $fileName"

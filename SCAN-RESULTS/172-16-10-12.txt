@@ -1,0 +1,18 @@
+Host: 172.16.10.12
+MAC Address: 02:42:AC:10:0A:0C (Unknown)
+Running: Linux 4.X|5.X
+OS details: Linux 4.15 - 5.8
+
+=== PORT: 80
+
+ curl results 
+Attempting to grab the Server header of 172.16.10.12...
+Server header for 172.16.10.12 on port 80 is: 
+
+ netcat results 
+Server: Apache/2.4.57 (Debian)
+<address>Apache/2.4.57 (Debian) Server at p-web-02.acme-infinity-servers.com Port 80</address>
+
+ webwhat results 
+WhatWeb scan completed successfully for 172.16.10.12:80
+"Apache/2.4.57 (Debian)"

@@ -1,6 +1,10 @@
 # IDE
 .idea/
 sessions/
+data/
+reports/
+
+testfile.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

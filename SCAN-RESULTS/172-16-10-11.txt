@@ -1,0 +1,29 @@
+Host: 172.16.10.11
+MAC Address: 02:42:AC:10:0A:0B (Unknown)
+Running: Linux 4.X|5.X
+OS details: Linux 4.15 - 5.8
+
+=== PORT: 21
+
+ curl results 
+Attempting to grab the Server header of 172.16.10.11...
+Server header for 172.16.10.11 on port 21 is: 
+
+ netcat results 
+
+ webwhat results 
+Error: Invalid IP address: 172.16.10.11:21 
+
+=== PORT: 80
+
+ curl results 
+Attempting to grab the Server header of 172.16.10.11...
+Server header for 172.16.10.11 on port 80 is: 
+
+ netcat results 
+Server: Apache/2.4.58 (Ubuntu)
+<address>Apache/2.4.58 (Ubuntu) Server at p-ftp-01.acme-infinity-servers.com Port 80</address>
+
+ webwhat results 
+WhatWeb scan completed successfully for 172.16.10.11:80
+"Apache/2.4.58 (Ubuntu)"

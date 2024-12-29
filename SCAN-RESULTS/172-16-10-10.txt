@@ -1,0 +1,16 @@
+Host: 172.16.10.10
+MAC Address: 02:42:AC:10:0A:0A (Unknown)
+Running: Linux 4.X|5.X
+OS details: Linux 4.15 - 5.8
+
+=== PORT: 8081
+
+ curl results 
+Attempting to grab the Server header of 172.16.10.10...
+Server header for 172.16.10.10 on port 8081 is: 
+
+ netcat results 
+
+ webwhat results 
+WhatWeb scan completed successfully for 172.16.10.10:8081
+"Werkzeug/3.0.1 Python/3.12.3"

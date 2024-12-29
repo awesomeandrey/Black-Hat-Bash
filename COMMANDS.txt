@@ -1,0 +1,48 @@
+
+# Rustscan
+
+rustscan -g -a 172.16.10.0/24 -r 1-1024 | awk -F'->' '{print $1,$2}'
+rustscan -a 172.16.10.0/24 -r 1-65535 -b 1000 --ulimit 5000
+rustscan -a 172.16.10.10 -r 1-65535 -b 1000 --ulimit 5000 -g
+
+# Nmap
+
+nmap scanme.nmap.org --open
+nmap -sV --script=banner.nse 172.16.10.11
+nmap -sV --script=banner.nse 172.16.10.11 | grep "|_banner\||_http-server"
+
+# whatweb
+
+whatweb 172.16.10.11:8081 --log-json=/dev/stdout --quiet 2> /dev/null | jq '.[0].plugins.HTTPServer.string[0]'
+
+# netcat
+
+nc -v 172.16.10.11 -w 1 80 2> /dev/null
+nc 172.16.10.11 -v 21
+
+# Nikto
+
+echo n | nikto -h 172.16.10.10 -p 8081
+echo n | nikto -h 172.16.10.11 -p 80
+echo n | nikto -h 172.16.10.12 -p 80
+
+# dirsearch
+
+dirsearch -u http://172.16.10.10:8081/
+dirsearch -u http://172.16.10.11
+dirsearch -u http://172.16.10.11/backup/acme-hyper-branding/
+dirsearch -u http://172.16.10.11/backup/acme-impact-alliance/
+
+# gitjacker
+
+gitjacker http://172.16.10.11/backup/acme-impact-alliance/ -o data/172.16.10.11/acme-impact-alliance
+cd data/172.16.10.11/acme-impact-alliance
+gitjacker http://172.16.10.11/backup/acme-hyper-branding/ -o data/172.16.10.11/acme-hyper-branding
+cd data/172.16.10.11/acme-hyper-branding
+ls -la data/172.16.10.11/acme-impact-alliance
+git log --pretty=format:"%an %ae"
+git log | grep Author | grep -oP '(?<=Author: ).*' | sort -u | tr -d '<>'
+
+# Nuclei
+
+todo - learn tool
