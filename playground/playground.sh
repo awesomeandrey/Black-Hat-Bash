@@ -7,4 +7,3 @@
 # bash -r ./playground/playground.sh
 # alias playground="bash /home/kali/Projects/Black-Hat-Bash/playground/playground.sh"
 
-

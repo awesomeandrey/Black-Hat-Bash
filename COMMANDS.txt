@@ -3,6 +3,7 @@
 
 rustscan -g -a 172.16.10.0/24 -r 1-1024 | awk -F'->' '{print $1,$2}'
 rustscan -a 172.16.10.0/24 -r 1-65535 -b 1000 --ulimit 5000
+rustscan -a 172.16.10.0/24 -r 20-22 -b 1000 --ulimit 5000
 rustscan -a 172.16.10.10 -r 1-65535 -b 1000 --ulimit 5000 -g
 
 # Nmap
@@ -10,6 +11,11 @@ rustscan -a 172.16.10.10 -r 1-65535 -b 1000 --ulimit 5000 -g
 nmap scanme.nmap.org --open
 nmap -sV --script=banner.nse 172.16.10.11
 nmap -sV --script=banner.nse 172.16.10.11 | grep "|_banner\||_http-server"
+nmap --script=ssh-auth-methods 172.16.10.13
+nmap --script="ftp*" 172.16.10.11
+nmap --script="ftp-anon.nse" 172.16.10.11
+ls -al /usr/share/nmap/scripts | grep ftp
+
 
 # whatweb
 
@@ -44,5 +50,22 @@ git log --pretty=format:"%an %ae"
 git log | grep Author | grep -oP '(?<=Author: ).*' | sort -u | tr -d '<>'
 
 # Nuclei
+curl http://172.16.10.11/backup/acme-hyper-branding/.git/HEAD
+ls -la  ~/.local/nuclei-templates/http/osint/phishing
+cat ~/.local/nuclei-templates/http/osint/phishing/zoom-phish.yaml
 
-todo - learn tool
+nuclei -u 172.16.10.11 -t ~/.local/nuclei-templates/custom/git-finder.yaml
+nuclei -tags apache,git -u 172.16.10.11
+nuclei -tags apache,git -u 172.16.10.11 -j | jq
+nuclei -u "172.16.10.11:21" -tags "ftp" -silent -nc | tr -d '[]'
+
+nuclei -u 172.16.10.10:8081 > "playground/nuclei-scan-results/172-16-10-10:8081.txt"
+nuclei -u 172.16.10.11:80 > "playground/nuclei-scan-results/172-16-10-11.txt"
+nuclei -u 172.16.10.12:80 > "playground/nuclei-scan-results/172-16-10-12.txt"
+
+ftp ftp://anonymous:@172.16.10.11
+bash ch05/nuclei-notifier.sh 172.16.10.10:8081 172.16.10.11:80 172.16.10.12:80
+echo -e acme-hyper-branding-{0..100}.{txt,csv,pdf,jpg}"\n" | sed 's/ //g' > "files_wordlist.txt"; head files_wordlist.txt
+wget <URL>
+
+bash -x playground/run_vulnerability_scanning.sh
