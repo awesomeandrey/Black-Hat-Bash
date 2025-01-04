@@ -18,4 +18,4 @@ jobs:
         with:
           ignore_paths: lab
         env:
-          SHELLCHECK_OPTS: -e SC2129
+          SHELLCHECK_OPTS: -e SC2129 -e SC1091

