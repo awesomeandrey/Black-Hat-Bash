@@ -1,0 +1,4 @@
+username=admin
+main_password=6785342
+interval=15
+cache=1599

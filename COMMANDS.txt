@@ -106,5 +106,149 @@ nohup ./donation-monitor.sh &> /dev/null & (nohup makes process ignore SIGHUP si
 
 # SSH Brute Force
 ssh user@172.16.10.13
+ssh backup@172.16.10.13
 sshpass -p "my_password" ssh -o "StrictHostKeyChecking=no" \
                -p 22 "username@172.16.10.13" exit &> /dev/null; echo "Command exit code: $?"
+
+# Local Information Gathering
+
+cat /etc/passwd
+awk -F':' '{print $1, $6, $7}' /etc/passwd | sed 's/ /, /g'
+
+cat /etc/group
+ls -l /home/
+
+grep -e "#DSHELL" /etc/adduser.conf
+grep -e "#SHELL" /etc/default/useradd
+awk -F':' '{if ($7 == "/bin/sh" || $7 == "/bin/bash") {print $1,$7}}' /etc/passwd
+grep -e "/bin/sh" -e "/bin/bash" /etc/passwd
+
+ls -1 /proc/ | grep -E "^[0-9]+$"
+ls -1 /proc/1
+cat /proc/1/cmdline
+
+ps aux
+ps x -o user -o pid -o cmd
+hostname
+cat /etc/os-release
+uname -o
+uname -a
+uname -r
+
+w
+who
+last
+head /var/run/utmp
+head /var/log/wtmp
+utmpdump /var/run/utmp
+utmpdump /var/log/wtmp
+history
+find / -name ".*_history" -type f
+find / -name ".*_history" -type f 2> /dev/null
+
+# Detecting Network Interfaces
+
+ls -l /sys/class/net/
+ls -l /sys/devices/virtual/net
+cat /proc/net/route
+
+010A10AC is a gateway IP address in hexadecimal format
+echo $((16#01))
+echo $((16#0A))
+echo $((16#10))
+echo $((16#AC))
+
+cat /proc/net/fib_trie
+awk '/32 host/ { print f } {f=$2}' /proc/net/fib_trie | sort | uniq
+ifconfig
+ifconfig -a
+ip addr
+
+cat /proc/net/tcp
+awk '{print $2,$3}' /proc/net/tcp | tail -n +2
+netstat -atnup
+nc -v 172.16.10.10 8081
+
+iptables -L --line-numbers -v
+
+# Domain Resolvers
+cat /etc/resolv.conf
+cat /etc/hosts
+head /etc/resolv.conf
+curl -s http://p-web-02.acme-infinity-servers.com > can be run from within 172.16.10.12
+
+# Software Installations
+
+apt list --installed
+dpkg -l
+
+# Storage
+
+ls -la /mnt/log_storage
+lsblk
+cat /proc/partitions
+cat /proc/mounts
+mount
+mount | grep /dev
+df -h -T
+cat /etc/fstab
+
+# Logs
+
+find / -name "*.log" -o -name "*.txt" -o -name "*.out" -type f 2> /dev/null
+
+# Kernel
+
+rpm -qa | grep kernel
+ls -l /boot | grep "vmlinuz-"
+
+# Configuration Files
+
+find /etc /usr \
+    -name "*.conf" \
+    -o -name "*.cf" \
+    -o -name "*.ini" \
+    -o -name "*.cfg" \
+    -o -name "*.cfg" \
+    -type f 2> /dev/null
+find / -name "*config*" -type f 2> /dev/null
+find / -name "*config*" -type f 2> /dev/null | grep sql
+
+# Schedule Jobs
+
+crontab -e   >>>> add new job
+crontab -l   >>>> see list of jobs
+head /etc/cron.allow
+head /etc/cron.deny
+
+touch "$HOME/atfiletemp" | at now + 2 minute
+atq
+
+# Hardware
+
+lshw
+lshw -C disk
+dmidecode
+hwinfo
+
+sudo apt install -y virt-what
+sudo virt-what
+
+systemd-detect-virt
+
+dmesg
+dmesg | grep "Detected virt"
+
+ls -l /sys/class/dmi/id
+cat /sys/class/dmi/id/product_name
+cat /sys/class/dmi/id/sys_vendor
+cat /sys/class/dmi/id/board_vendor
+cat /sys/class/dmi/id/bios_vendor
+cat /sys/class/dmi/id/product_version
+
+cat /sys/hypervisor/type
+sudo cat /proc/1/environ
+cat /run/systemd/container
+
+./home/kali/tools/LinEnum.sh -t -r "/tmp/linenum_report.txt"
+linenum -t -r "/tmp/linenum_report.txt"
