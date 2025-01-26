@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "BKSH - prerm"
+echo "| whoami $(whoami)"
+echo "| sudo -l $(sudo -l)"
+echo "| id $(id)"

