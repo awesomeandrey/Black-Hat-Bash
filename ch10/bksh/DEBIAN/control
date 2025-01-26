@@ -1,0 +1,6 @@
+Package: bksh
+Version: 2.7.1
+Maintainer: awesomeandrey
+Description: Backdoor Shell
+Homepage: https://nostarch.com
+Architecture: all
