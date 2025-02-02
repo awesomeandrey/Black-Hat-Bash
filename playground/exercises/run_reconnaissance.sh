@@ -41,11 +41,11 @@ capture_host_service_details(){
 
   # netcat approach
   printf  "\n netcat results \n" >> "$file"
-  bash "playground/netcat_banner_grab_by_ip.sh" "$host" "$port" "$file"
+  bash "playground/exercises/netcat_banner_grab_by_ip.sh" "$host" "$port" "$file"
 
   #webwhat approach
   printf  "\n webwhat results \n" >> "$file"
-  bash playground/webwhat_banner_by_ip.sh "$host:$port" "$file"
+  bash "playground/exercises/webwhat_banner_by_ip.sh" "$host:$port" "$file"
 }
 
 mkdir -p "SCAN-RESULTS"

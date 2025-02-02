@@ -10,7 +10,6 @@ rustscan -a 46.219.66.140 -b 1000 --ulimit 5000 -g
 # Nmap
 
 nmap scanme.nmap.org --open
-nmap kosin.org.ua --open
 nmap 46.219.66.140 --open
 nmap -sV --script=banner.nse 172.16.10.11
 nmap -sV --script=banner.nse 172.16.10.11 | grep "|_banner\||_http-server"
@@ -23,7 +22,6 @@ ls -al /usr/share/nmap/scripts | grep ftp
 # whatweb
 
 whatweb 172.16.10.11:8081 --log-json=/dev/stdout --quiet 2> /dev/null | jq '.[0].plugins.HTTPServer.string[0]'
-whatweb https://kosin.org.ua
 
 # netcat
 
