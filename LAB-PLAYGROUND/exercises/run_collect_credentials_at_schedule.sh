@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
 # How to use:
-# bash playground/exercises/run_collect_credentials_at_schedule.sh
+# bash LAB-PLAYGROUND/exercises/run_collect_credentials_at_schedule.sh
 
 # Schedule:
-# at now + 2 minutes -f /home/kali/Projects/Black-Hat-Bash/playground/exercises/run_collect_credentials_at_schedule.sh
-# crontab - */2 * * * * bash /home/kali/Projects/Black-Hat-Bash/playground/exercises/run_collect_credentials_at_schedule.sh
+# at now + 2 minutes -f /home/kali/Projects/Black-Hat-Bash/LAB-PLAYGROUND/exercises/run_collect_credentials_at_schedule.sh
+# crontab - */2 * * * * bash /home/kali/Projects/Black-Hat-Bash/LAB-PLAYGROUND/exercises/run_collect_credentials_at_schedule.sh
 
 #Make sure to make script executable
 

@@ -1,0 +1,28 @@
+# RustScan
+
+Download official repo: git clone https://github.com/RustScan/RustScan.git
+Run: cargo build --release
+Find executable file in: target/release folder
+
+Copy 'rustscan' executable file to one of $PATH directories:
+cp "~/Projects/RustScan/target/release/rustscan" "/usr/bin/rustscan"
+
+# pwncat
+
+pip3 install pwncat-cs # Does Not Work
+
+Workaround solution:
+1. Install 'pyenv' (it's NVM for python)
+2. Install 'pyenv install 3.11.6' (this might require addiotional installation of python modules)
+3. Set python version via 'pyenv global 3.11.6'
+4. 'pip3 install pwncat-cs'
+
+# .bashrc content
+
+---snip---
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
+
+source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
+alias welcome="echo Welcome, $(whoami)!"

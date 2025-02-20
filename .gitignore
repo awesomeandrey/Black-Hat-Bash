@@ -3,7 +3,9 @@
 sessions/
 data/
 reports/
+pwncat-env/
 
+nohup.out
 testfile.txt
 run_opt_LinEnum.sh
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# bash playground/exercises/run_os_detection.sh
+# bash LAB-PLAYGROUND/exercises/run_os_detection.sh
 
 detect_os() {
   local cmd="$1"

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # How to use:
-# bash playground/exercises/run_collect_logs.sh
-# echo "/" | bash playground/exercises/run_collect_logs.sh
+# bash LAB-PLAYGROUND/exercises/run_collect_logs.sh
+# echo "/" | bash LAB-PLAYGROUND/exercises/run_collect_logs.sh
 
 #curr_pwd=$(pwd)
 #HOME=$(cd ~; pwd)

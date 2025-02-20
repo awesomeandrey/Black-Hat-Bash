@@ -5,7 +5,7 @@ source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
 # Pre-requisites: embed webshell as the changes to 'app.py' files (page 130)
 
 # Commands
-# bash playground/exercises/run_webshell_opt.sh 172.16.10.10:8081
+# bash LAB-PLAYGROUND/exercises/run_webshell_opt.sh 172.16.10.10:8081
 
 host="$1"
 if [[ -z "$host" ]]; then

