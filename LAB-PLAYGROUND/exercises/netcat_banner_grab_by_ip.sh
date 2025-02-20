@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# bash LAB-PLAYGROUND/exercises/netcat_banner_grab_by_ip.sh 172.16.10.10 8081 LAB-PLAYGROUND/assets/scan_result.txt
+
 IP="${1}"
 PORT="${2}"
 FILE="${3}"

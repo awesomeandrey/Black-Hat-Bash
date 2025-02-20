@@ -4,12 +4,13 @@ sessions/
 data/
 reports/
 pwncat-env/
+TEMPO/
+temp/
 
 nohup.out
 testfile.txt
 run_opt_LinEnum.sh
 
-TEMPO/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

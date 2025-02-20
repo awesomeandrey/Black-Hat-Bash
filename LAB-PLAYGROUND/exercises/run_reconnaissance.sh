@@ -1,8 +1,11 @@
 #!/bin/bash
 
+# bash LAB-PLAYGROUND/exercises/run_reconnaissance.sh
+# bash LAB-PLAYGROUND/exercises/run_reconnaissance.sh
+
 # Step 1 - scan network and collect running hosts
 collect_running_hosts(){
-  local hosts_list_filepath="/home/kali/Projects/Black-Hat-Bash/172-16-10-hosts.txt"
+  local hosts_list_filepath="LAB-PLAYGROUND/172-16-10-hosts.txt"
   local hosts=()
   while read -r line_with_host; do
     hosts+=("$(echo "$line_with_host" | awk -F'report for' '{print $2}')")
@@ -13,7 +16,7 @@ collect_running_hosts(){
 collect_open_ports_by_host(){
   local target_host="$1"
   local scan_result
-  scan_result=$(docker run --network=host -it --rm --name rustscan rustscan/rustscan:2.1.1 -a "$target_host" -r 1-65000 -b 1000 -g)
+  scan_result=$(rustscan -a "$target_host" -r 1-65000 -b 1000 -g)
   local open_ports_as_str
   open_ports_as_str=$(echo "$scan_result" | awk -F'->' '{print $2}' | tr -d '[]')
   # parse '21,80' string to '21 80'
@@ -48,12 +51,12 @@ capture_host_service_details(){
   bash "LAB-PLAYGROUND/exercises/webwhat_banner_by_ip.sh" "$host:$port" "$file"
 }
 
-mkdir -p "SCAN-RESULTS"
+mkdir -p "LAB-PLAYGROUND/scan-results"
 
 # Step 2 - foe each host collect information and capture it in dedicated file
 for host in $(collect_running_hosts); do
   echo "Creating file for $host and collecting info about it..."
-  host_filename="SCAN-RESULTS/${host//./-}.txt"
+  host_filename="LAB-PLAYGROUND/scan-results/${host//./-}.txt"
   touch "$host_filename"
   truncate -s 0 "$host_filename"
 

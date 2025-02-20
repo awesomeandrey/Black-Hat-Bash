@@ -1,16 +1,16 @@
 Host: 172.16.10.13
 MAC Address: 02:42:AC:10:0A:0D (Unknown)
 Running: Linux 4.X|5.X
-OS details: Linux 4.15 - 5.8
+OS details: Linux 4.15 - 5.19
 
 === PORT: 22
 
  curl results 
 Attempting to grab the Server header of 172.16.10.13...
-Server header for 172.16.10.13 on port 22 is: 
+Server header for 172.16.10.13 on port 22 is: 
 
  netcat results 
 
  webwhat results 
-Error: Invalid IP address: 172.16.10.13:22 
+Error: Invalid IP address: 172.16.10.13:22 
 

@@ -1,0 +1,4 @@
+WhatWeb scan completed successfully for 172.16.10.10:8081
+"Werkzeug/3.0.1 Python/3.12.3"
+WhatWeb scan completed successfully for 172.16.10.10:8081
+"Werkzeug/3.0.1 Python/3.12.3"

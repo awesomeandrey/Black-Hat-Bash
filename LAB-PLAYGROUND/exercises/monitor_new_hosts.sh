@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 
-notify(){
-  curl -X POST \
-    -H 'Content-type: application/json' \
-    --data "{\"text\":\"New host discovered $1\"}" \
-    "$SLACK_WEBHOOK_URL"
-}
+#notify(){
+#  curl -X POST \
+#    -H 'Content-type: application/json' \
+#    --data "{\"text\":\"New host discovered $1\"}" \
+#    "$SLACK_WEBHOOK_URL"
+#}
 
 NETWORK_CIDR="172.16.10.0/24"
 NETWORK_INTERFACE="br_public"
-
-KNOWN_HOSTS_FILE="172-16-10-hosts.txt"
+KNOWN_HOSTS_FILE="LAB-PLAYGROUND/assets/172-16-10-hosts.txt"
 
 while true; do
   echo "In a loop"

@@ -1,3 +1,6 @@
+git clone ssh://git@github.com/awesomeandrey/Black-Hat-Bash.git
+https://github.com/awesomeandrey/Black-Hat-Bash.git
+
 # RustScan
 
 Download official repo: git clone https://github.com/RustScan/RustScan.git
@@ -26,3 +29,15 @@ eval "$(pyenv init - bash)"
 
 source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 alias welcome="echo Welcome, $(whoami)!"
+
+# Install Java & Burpsuite
+
+sudo apt remove --purge openjdk-* -y
+sudo apt autoremove -y
+sudo apt install openjdk-17-jdk -y
+
+https://portswigger.net/burp/releases#community
+
+# Install Go and Gitjacker
+
+https://rafaelhart.com/2020/03/installing-golang-on-kali-linux/

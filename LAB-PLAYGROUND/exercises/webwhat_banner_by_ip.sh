@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# bash LAB-PLAYGROUND/exercises/webwhat_banner_by_ip.sh 172.16.10.10:8081 "LAB-PLAYGROUND/assets/scan_result.txt"
+
 target="$1"
 file="$2"
 

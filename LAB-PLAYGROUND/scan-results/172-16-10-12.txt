@@ -1,13 +1,13 @@
 Host: 172.16.10.12
 MAC Address: 02:42:AC:10:0A:0C (Unknown)
-Running: Linux 4.X|5.X
-OS details: Linux 4.15 - 5.8
+Running: Linux 4.X|5.X, MikroTik RouterOS 7.X
+OS details: Linux 4.15 - 5.19, OpenWrt 21.02 (Linux 5.4), MikroTik RouterOS 7.2 - 7.5 (Linux 5.6.3)
 
 === PORT: 80
 
  curl results 
 Attempting to grab the Server header of 172.16.10.12...
-Server header for 172.16.10.12 on port 80 is: 
+Server header for 172.16.10.12 on port 80 is:  Apache/2.4.57 (Debian)
 
  netcat results 
 Server: Apache/2.4.57 (Debian)

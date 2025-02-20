@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "/home/kali/Projects/Black-Hat-Bash/pentest.sh"
+source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 
 # Pre-requisites: embed webshell as the changes to 'app.py' files (page 130)
 
