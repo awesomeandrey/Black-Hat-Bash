@@ -1,0 +1,4 @@
+tool, check_type, indicator
+apparmor, directory, /etc/apparmor.d
+auditd, process, auditd
+apparmor, directory, /etc/apparmor.d

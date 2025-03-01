@@ -1,5 +1,8 @@
 #!/bin/bash
-REPORT_NAME="security_tool_scanner-$(date +%d-%m-%y).txt"
+
+# bash ch12/exercise_solution.sh
+
+REPORT_NAME="LAB-PLAYGROUND/assets/security_tool_scanner-$(date +%d-%m-%y).txt"
 
 check(){
   local tool
