@@ -15,7 +15,6 @@ fi
 
 is_dictionary_file_valid() {
   local filename="$1"
-  local filetype="$2"
   if [ -z "$filename" ] || ! [ -f "$filename" ]; then
     return 1
   fi
@@ -44,7 +43,7 @@ while read -r username; do
       echo "Testing combination: $username / $password..."
       response=$(curl -s -I -u "$username:$password" -X GET "$TARGET_ENDPOINT")
       echo "$response"
-      if ! [ -z "$response" ] && ! echo "$response" | grep -q "401"; then
+      if [ -n "$response" ] && ! echo "$response" | grep -q "401"; then
         echo "Found match: $username / $password"
         exit 0
       fi
